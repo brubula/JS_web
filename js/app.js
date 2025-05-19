@@ -29,7 +29,8 @@ let isManualUpdate = false;
 let isFirstLoad = true;
 
 // Configuración
-const BINANCE_P2P_API = 'https://p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search';
+const CORS_PROXY = 'https://corsproxy.io/?';
+const BINANCE_P2P_API = CORS_PROXY + encodeURIComponent('https://p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search');
 const UPDATE_INTERVAL = 60000; // 1 minuto
 
 // Funciones de utilidad
@@ -139,9 +140,7 @@ async function fetchP2PDataPage(tradeType, page) {
         const response = await fetch(BINANCE_P2P_API, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'Accept': '*/*',
-                'Origin': 'https://p2p.binance.com'
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(payload)
         });

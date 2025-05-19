@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis de Liquidez USDT/BOB P2P Binance</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-content">
+            <a href="#" class="logo">
+                <i class="fab fa-bitcoin"></i>
+                <span>Crypto Market Analytics</span>
+            </a>
+            <div class="market-info">
+                <div class="market-pair">USDT/BOB</div>
+                <div class="market-prices">
+                    <span class="buy-price">Compra: <span id="headerMinBuyPrice">-</span></span>
+                    <span class="price-separator">|</span>
+                    <span class="sell-price">Venta: <span id="headerMaxSellPrice">-</span></span>
+                </div>
+            </div>
+        </div>
+        <div class="progress-bar" id="progressBar">
+            <div class="progress-bar-fill"></div>
+        </div>
+    </header>
+
+    <div class="loading" id="loading">
+        <div class="loading-content">
+            <i class="fas fa-spinner fa-spin"></i>
+            <span>Actualizando datos...</span>
+            <div class="loading-status" id="loadingStatus">Obteniendo datos de compra...</div>
+        </div>
+    </div>
+
+    <main class="container">
+        <div class="dashboard-header">
+            <h1>Panel de Análisis de Liquidez</h1>
+            <div class="update-section">
+                <div class="last-update">
+                    Última actualización: <span id="lastUpdate">-</span>
+                </div>
+                <button id="refreshButton" class="refresh-button">
+                    <i class="fas fa-sync-alt"></i>
+                    Actualizar Ahora
+                </button>
+            </div>
+        </div>
+
+        <div class="stats-container">
+            <div class="stat-card clickable" id="volumeCard">
+                <i class="fas fa-chart-line card-icon"></i>
+                <h3>Volumen Total (USDT)</h3>
+                <div class="stat-value" id="totalVolume">-</div>
+                <div class="stat-description">Suma total de USDT disponible para comprar</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-tachometer-alt card-icon"></i>
+                <h3>Índice de Liquidez</h3>
+                <div class="stat-value" id="liquidityIndex">-</div>
+                <div class="stat-description" id="liquidityDescription">-</div>
+            </div>
+        </div>
+
+        <!-- Modal para mostrar la lista de órdenes -->
+        <div id="ordersModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Lista de Órdenes de Compra</h2>
+                    <span class="close">&times;</span>
+                </div>
+                <div class="orders-list" id="ordersList">
+                    <!-- Las órdenes se insertarán aquí dinámicamente -->
+                </div>
+            </div>
+        </div>
+
+        <section class="market-section">
+            <h2 class="section-title"><i class="fas fa-shopping-cart"></i> Precios de Compra (BOB)</h2>
+            <div class="stats-container">
+                <div class="stat-card">
+                    <i class="fas fa-arrow-down card-icon green"></i>
+                    <h3>Precio Mínimo</h3>
+                    <div class="stat-value" id="minBuyPrice">-</div>
+                    <div class="stat-description">Mejor precio para comprar USDT</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-equals card-icon blue"></i>
+                    <h3>Precio Promedio</h3>
+                    <div class="stat-value" id="avgBuyPrice">-</div>
+                    <div class="stat-description">Precio promedio ponderado de compra</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-arrow-up card-icon red"></i>
+                    <h3>Precio Máximo</h3>
+                    <div class="stat-value" id="maxBuyPrice">-</div>
+                    <div class="stat-description">Precio más alto de compra</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="market-section">
+            <h2 class="section-title"><i class="fas fa-store"></i> Precios de Venta (BOB)</h2>
+            <div class="stats-container">
+                <div class="stat-card">
+                    <i class="fas fa-arrow-down card-icon green"></i>
+                    <h3>Precio Mínimo</h3>
+                    <div class="stat-value" id="minSellPrice">-</div>
+                    <div class="stat-description">Precio más bajo de venta</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-equals card-icon blue"></i>
+                    <h3>Precio Promedio</h3>
+                    <div class="stat-value" id="avgSellPrice">-</div>
+                    <div class="stat-description">Precio promedio ponderado de venta</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-arrow-up card-icon red"></i>
+                    <h3>Precio Máximo</h3>
+                    <div class="stat-value" id="maxSellPrice">-</div>
+                    <div class="stat-description">Precio más alto de venta</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-info-circle"></i> Acerca de</h3>
+                <p>Esta herramienta analiza en tiempo real el mercado P2P de USDT/BOB en Binance, proporcionando información crucial sobre precios y liquidez.</p>
+            </div>
+            <div class="footer-section">
+                <h3><i class="fas fa-sync-alt"></i> Actualización</h3>
+                <p>Los datos se actualizan automáticamente cada 30 segundos para mantener la información precisa y relevante.</p>
+            </div>
+            <div class="footer-section">
+                <h3><i class="fas fa-shield-alt"></i> Disclaimer</h3>
+                <p>Esta herramienta es solo para fines informativos. No constituye asesoramiento financiero.</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Crypto Market Analytics. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html> 

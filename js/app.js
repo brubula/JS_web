@@ -29,8 +29,7 @@ let isManualUpdate = false;
 let isFirstLoad = true;
 
 // Configuración
-const CORS_PROXY = 'https://corsproxy.io/?';
-const BINANCE_P2P_API = CORS_PROXY + encodeURIComponent('https://p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search');
+const BINANCE_P2P_API = 'https://binance-p2p-proxy.brubula90.workers.dev';
 const UPDATE_INTERVAL = 60000; // 1 minuto
 
 // Funciones de utilidad
@@ -145,7 +144,11 @@ async function fetchP2PDataPage(tradeType, page) {
             body: JSON.stringify(payload)
         });
 
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        if (!response.ok) {
+            console.error(`Error HTTP: ${response.status}`);
+            return [];
+        }
+
         const data = await response.json();
         return data.data || [];
     } catch (error) {
